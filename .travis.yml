@@ -15,6 +15,8 @@ before_script:
   - npm run setup
   - nohup bash -c "npm run server 2>&1 &"
   - sleep 10
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
   provider: npm
   email: andrej@chocolatejar.eu

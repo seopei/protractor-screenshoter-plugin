@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "webdriver-manager update",
     "server": "webdriver-manager start",
-    "test": "jasmine",
+    "test": "istanbul cover node_modules/jasmine/bin/jasmine.js --cover -x **/*.spec.js -x spec/**/*.js",
     "release": "standard-version"
   },
   "repository": {
@@ -48,7 +48,9 @@
     "uuid": "^2.0.3"
   },
   "devDependencies": {
+    "codecov": "^1.0.1",
     "cz-conventional-changelog": "^1.2.0",
+    "istanbul": "^0.4.5",
     "jasmine": "^2.5.2",
     "protractor": "^4.0.9",
     "standard-version": "^3.0.0"
