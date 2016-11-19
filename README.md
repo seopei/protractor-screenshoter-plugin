@@ -13,6 +13,12 @@
 
 [![Build Status](https://travis-ci.org/azachar/protractor-screenshoter-plugin.svg?branch=master)](https://travis-ci.org/azachar/protractor-screenshoter-plugin)
 
+# This branch has experimental speech support
+Before and after each test it reads the name of the test and its test result. So you can watch your e2e tests and hear what is happening :)
+
+## Known issues
+When using ``fit (fdescribe)``, all other ignored tests  are read at once. If there is a volunteer with a great knowledge of jasmine, I guess it can be easily fixed than.
+
 # protractor-screenshoter-plugin
 This plugin captures for each **expectation** or **spec** console **logs** and makes **screenshots** for **each browser** instance. Also it comes with a beautifull angular based  [HTML reporter for chat alike apps](https://github.com/azachar/screenshoter-report-analyzer).
 
@@ -53,7 +59,7 @@ Also, I created a list of [alternatives](https://github.com/azachar/protractor-s
 # How to install
 
 ```
-npm install protractor-screenshoter-plugin
+npm install azachar/protractor-screenshoter-plugin#feat-speech
 ```
 
 NOTE: This plugin depends on [screenshoter-report-analyzer](https://github.com/azachar/screenshoter-report-analyzer). So sometimes even if this plugin version is not updated, the reporter might be.
@@ -77,6 +83,7 @@ exports.config = {
                 excludeKeywords: {A JSON Array}
            }
        }],
+       speak: {Boolean}      (Default - true),
        onPrepare: function () {
         // returning the promise makes protractor wait for the reporter config before executing tests
         return global.browser.getProcessedConfig().then(function (config) {
@@ -99,7 +106,8 @@ exports.config = {
         screenshotOnSpec: 'none',
         withLogs: 'true',
         writeReportFreq: 'asap',
-        clearFoldersBeforeTest: true
+        clearFoldersBeforeTest: true,
+        speak: true
     }],
 
     onPrepare: function() {
@@ -143,6 +151,15 @@ to reset screenshotBrowsers from your previous spec use this code
   });
 ```
 
+# Config reference
+## speak (experimental speech support)
+Before and after each test it reads the name of the test and its result. So you can watch your e2e tests and hear what is happening :)
+
+### Known issues
+When using ``fit (fdescribe)``, all other ignored tests  are read at once. If there is a volunteer with a great knowledge of jasmine, I guess it can be easily fixed than.
+
+ Default: 'true'
+ Valid Options: true/false
 
 ## htmlReport
 

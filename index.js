@@ -4,6 +4,7 @@ var _ = require('lodash');
 var uuid = require('uuid');
 var moment = require('moment');
 var path = require('path');
+var say = require('say');
 
 /**
  * This plugin does few things:
@@ -201,7 +202,7 @@ protractorUtil.installReporter = function(context) {
 };
 
 protractorUtil.registerJasmineReporter = function(context) {
-
+    var saySuite, lastResultsToSay;
     jasmine.getEnv().addReporter({
         jasmineStarted: function() {
             protractorUtil.testResults = [];
@@ -210,7 +211,14 @@ protractorUtil.registerJasmineReporter = function(context) {
                 protractorUtil.installReporter(context);
             }
         },
+        suiteStarted: function(result) {
+            if (context.config.speak) {
+                saySuite = true;
+            }
+        },
+
         specStarted: function(result) {
+            // console.log(result);
             global.screenshotBrowsers = {};
 
             protractorUtil.test = {
@@ -221,6 +229,23 @@ protractorUtil.registerJasmineReporter = function(context) {
                 passedExpectations: []
             };
             protractorUtil.testResults.push(protractorUtil.test);
+
+            if (context.config.speak && result.pendingReason==='' && result.status != 'disabled') {
+                var text;
+                if (saySuite) {
+                    text = result.fullName;
+                    saySuite = false;
+                } else {
+                    //short version first
+                    text = 'it ' + result.description + ', e.g. '+result.fullName;
+                }
+                if (lastResultsToSay){
+                    text = lastResultsToSay+' Now we test '+text;
+                    lastResultsToSay=null;
+                }
+                console.log('Speaking %s', text);
+                say.speak(text);
+            }
         },
         specDone: function(result) {
             if (context.config.screenshotOnSpec != 'none') {
@@ -241,10 +266,20 @@ protractorUtil.registerJasmineReporter = function(context) {
             if (context.config.writeReportFreq === 'asap' || context.config.writeReportFreq === 'spec') {
                 protractorUtil.writeReport(context);
             }
+            if (context.config.speak){
+               lastResultsToSay = 'The last '+result.id +' ' +result.status +'.';
+            }
         },
         jasmineDone: function() {
             protractorUtil.jasmineDone = true; //taking screenshots after the spec might be not finished since it is an async operation
             protractorUtil.writeReport(context);
+            if (context.config.speak){
+                say.stop(); //kill all others
+                if (lastResultsToSay){;
+                    console.log('Speaking %s', lastResultsToSay);
+                    say.speak(lastResultsToSay);
+                }
+            }
         }
     });
 };
@@ -320,7 +355,8 @@ protractorUtil.prototype.setup = function() {
         screenshotOnExpect: 'failure+success',
         screenshotOnSpec: 'failure+success',
         htmlReport: true,
-        writeReportFreq: 'end'
+        writeReportFreq: 'end',
+        speak: true
     }
 
     this.config = _.merge({}, defaultSettings, this.config);
@@ -341,7 +377,7 @@ protractorUtil.prototype.setup = function() {
         }
     });
 
-    var pjson = require(__dirname+'/package.json');
+    var pjson = require(__dirname + '/package.json');
     console.log('Activated Protractor Screenshoter Plugin, ver. ' + pjson.version + ' (c) 2016 ' + pjson.author + ' and contributors');
     console.log('The resolved configuration is:');
     console.log(this.config);
