@@ -237,13 +237,14 @@ protractorUtil.registerJasmineReporter = function(context) {
                     saySuite = false;
                 } else {
                     //short version first
-                    text = 'it ' + result.description + ', e.g. '+result.fullName;
+                    text = 'it ' + result.description;
                 }
                 if (lastResultsToSay){
                     text = lastResultsToSay+' Now we test '+text;
                     lastResultsToSay=null;
                 }
-                console.log('Speaking %s', text);
+                // console.log('Speaking %s', text);
+                say.stop();
                 say.speak(text);
             }
         },
