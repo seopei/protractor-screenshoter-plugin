@@ -1,10 +1,10 @@
 describe('angularjs homepage', function() {
   it('should open two browsers', function() {
     browser.get('http://www.angularjs.org');
-    browser.forkedInstances['first']=browser;
+    screenshotBrowsers.first=browser;
 
     var b = browser.forkNewDriverInstance();
-    browser.forkedInstances['second']=b;
+    screenshotBrowsers.second=b;
     b.get('http://www.angularjs.org');
 
     element(by.model('yourName')).sendKeys('First Browser');
