@@ -35,8 +35,8 @@ var protractorUtil = function() {};
 
 protractorUtil.forEachBrowser = function(action) {
     try {
-        if (global.screenshotBrowsers && Object.keys(global.screenshotBrowsers).length > 0) {
-            _.forOwn(global.screenshotBrowsers, function(instance, name) {
+        if (global.browser.forkedInstances && Object.keys(global.browser.forkedInstances).length > 0) {
+            _.forOwn(global.browser.forkedInstances, function(instance, name) {
                 action(instance, name);
             });
         } else {
@@ -216,7 +216,7 @@ protractorUtil.registerJasmineReporter = function(context) {
             }
         },
         specStarted: function(result) {
-            global.screenshotBrowsers = {};
+            global.browser.forkedInstances = {};
 
             protractorUtil.test = {
                 start: moment(),

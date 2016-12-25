@@ -14,10 +14,10 @@ describe('angularjs homepage', function() {
 
     it('should generate console errors in 2 browsers', function() {
       browser.get('http://www.angularjs.org');
-      screenshotBrowsers.first=browser;
+      browser.forkedInstances['first']=browser;
 
       var b = browser.forkNewDriverInstance();
-      screenshotBrowsers.second=b;
+      browser.forkedInstances['second']=b;
       b.get('http://www.angularjs.org');
 
       element(by.model('yourName')).sendKeys('Julie');
