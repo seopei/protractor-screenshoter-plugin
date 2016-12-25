@@ -216,8 +216,6 @@ protractorUtil.registerJasmineReporter = function(context) {
             }
         },
         specStarted: function(result) {
-            global.screenshotBrowsers = {};
-
             protractorUtil.test = {
                 start: moment(),
                 specScreenshots: [],
@@ -356,6 +354,7 @@ protractorUtil.prototype.setup = function() {
  * Sets reporter hooks based on the configurtion
  */
 protractorUtil.prototype.onPrepare = function() {
+    global.screenshotBrowsers = {};
     protractorUtil.registerJasmineReporter(this);
 
     if (this.config.screenshotOnExpect != 'none') {
