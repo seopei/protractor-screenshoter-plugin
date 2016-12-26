@@ -1,2 +1,2 @@
-export declare function addBrowserInstance(name:string, browserInstance:any):void;
-export declare function removeBrowserInstance(name:string):void;
+export declare function addScreenshotBrowser(name:string, browserInstance:any):void;
+export declare function removeScreenshotBrowser(name:string):void;

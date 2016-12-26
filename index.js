@@ -317,7 +317,7 @@ protractorUtil.failTestOnErrorLog = function(context) {
 /**
  * Add a new browser instance
  */
-protractorUtil.prototype.addBrowserInstance = function (name, browserInstance) {
+protractorUtil.prototype.addScreenshotBrowser = function (name, browserInstance) {
     if (typeof name === 'string') {
         protractorUtil.screenshotBrowsers[name] = browserInstance;
     } else {
@@ -328,7 +328,7 @@ protractorUtil.prototype.addBrowserInstance = function (name, browserInstance) {
 /**
  * Remove a browser instance
  */
-protractorUtil.prototype.removeBrowserInstance = function (name) {
+protractorUtil.prototype.removeScreenshotBrowser = function (name) {
     if (typeof name === 'string') {
         delete protractorUtil.screenshotBrowsers[name];
     } else {
