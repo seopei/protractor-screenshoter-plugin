@@ -144,23 +144,18 @@ You can do it like this
 var a  = browser.forkNewDriverInstance();
 var b  = browser.forkNewDriverInstance();
 
-global.screenshotBrowsers['anyCustomNameOfBrowserDisplayedInReports'] = a;
-global.screenshotBrowsers.userB = b;
+protractorUtils.addScreenshotBrowser('first', a);
+protractorUtils.addScreenshotBrowser('second', b);
 ```
 
-if you close the browser, remove it also from global.screenshotBrowsers After closing browser making screenshots won't work. Make sense, right no browser no screenshot.
+if you close the browser, remove it. After closing browser making screenshots won't work. Make sense, right no browser no screenshot.
 
 ```
-delete global.screenshotBrowsers.userB;
+protractorUtils.removeScreenshotBrowser('first');
+protractorUtils.removeScreenshotBrowser('second');
 ```
 
-to reset screenshotBrowsers from your previous spec use this code
-
-```
-beforeAll(function() {
-    global.screenshotBrowsers = {};
-  });
-```
+For more details see 'multi-browser-instance-test.js'
 
 ## htmlReport
 
