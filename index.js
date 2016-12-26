@@ -33,10 +33,12 @@ var path = require('path');
  */
 var protractorUtil = function() {};
 
+protractorUtil.screenshotBrowsers = {};
+
 protractorUtil.forEachBrowser = function(action) {
     try {
-        if (global.screenshotBrowsers && Object.keys(global.screenshotBrowsers).length > 0) {
-            _.forOwn(global.screenshotBrowsers, function(instance, name) {
+        if (protractorUtil.screenshotBrowsers && Object.keys(protractorUtil.screenshotBrowsers).length > 0) {
+            _.forOwn(protractorUtil.screenshotBrowsers, function(instance, name) {
                 action(instance, name);
             });
         } else {
@@ -313,6 +315,28 @@ protractorUtil.failTestOnErrorLog = function(context) {
 };
 
 /**
+ * Add a new browser instance
+ */
+protractorUtil.prototype.addBrowserInstance = function (name, browserInstance) {
+    if (typeof name === 'string') {
+        protractorUtil.screenshotBrowsers[name] = browserInstance;
+    } else {
+        console.warn('browser name must be a typeof string');
+    }
+};
+
+/**
+ * Remove a browser instance
+ */
+protractorUtil.prototype.removeBrowserInstance = function (name) {
+    if (typeof name === 'string') {
+        delete protractorUtil.screenshotBrowsers[name];
+    } else {
+        console.warn('browser name must be a typeof string');
+    }
+};
+
+/**
  * Initialize configurtion
  */
 protractorUtil.prototype.setup = function() {
@@ -354,7 +378,6 @@ protractorUtil.prototype.setup = function() {
  * Sets reporter hooks based on the configurtion
  */
 protractorUtil.prototype.onPrepare = function() {
-    global.screenshotBrowsers = {};
     protractorUtil.registerJasmineReporter(this);
 
     if (this.config.screenshotOnExpect != 'none') {
