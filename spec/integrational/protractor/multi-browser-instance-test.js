@@ -1,6 +1,6 @@
 var protractorUtils = require('../../../index');
 
-describe('angularjs homepage', function() {
+describe('angularjs homepage', function () {
 
   var firstBrowser = null;
   var secondBrowser = null;
@@ -18,7 +18,7 @@ describe('angularjs homepage', function() {
     protractorUtils.removeScreenshotBrowser('second');
   });
 
-  it('should open two browsers', function() {
+  it('should open two browsers', function () {
     firstBrowser.get('http://www.angularjs.org');
     secondBrowser.get('http://www.angularjs.org');
 
