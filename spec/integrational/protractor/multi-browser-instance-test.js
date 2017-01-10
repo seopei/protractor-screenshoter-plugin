@@ -6,11 +6,8 @@ describe('angularjs homepage', function () {
   var secondBrowser = null;
 
   beforeAll(function () {
-    firstBrowser = browser;
-    protractorUtils.addScreenshotBrowser('first', firstBrowser);
-
-    secondBrowser = browser.forkNewDriverInstance();
-    protractorUtils.addScreenshotBrowser('second', secondBrowser);
+    firstBrowser = protractorUtils.addScreenshotBrowser('first');
+    secondBrowser = protractorUtils.addScreenshotBrowser('second', true);
   });
 
   afterAll(function () {

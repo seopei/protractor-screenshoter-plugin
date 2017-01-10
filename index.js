@@ -398,24 +398,36 @@ protractorUtil.failTestOnErrorLog = function(context) {
 
 /**
  * Add a new browser instance
+ * @param name name of the browser instance
+ * @param skipImageToAscii disable generating ASCII images (optional, default: false)
+ * @returns {*} browser instance
  */
-protractorUtil.prototype.addScreenshotBrowser = function (name, browserInstance) {
-    if (typeof name === 'string') {
-        protractorUtil.screenshotBrowsers[name] = browserInstance;
+protractorUtil.prototype.addScreenshotBrowser = function (name, skipImageToAscii) {
+    skipImageToAscii = (typeof skipImageToAscii === 'undefined') ? false : skipImageToAscii;
+    var browserInstance = null;
+    if (_.isEmpty(protractorUtil.screenshotBrowsers)) {
+        browserInstance = global.browser;
     } else {
-        console.warn('browser name must be a typeof string');
+        browserInstance = global.browser.forkNewDriverInstance();
     }
+    browserInstance.skipImageToAscii = skipImageToAscii;
+    protractorUtil.screenshotBrowsers[name] = browserInstance;
+    return browserInstance;
 };
 
 /**
  * Remove a browser instance
+ * @param name browser name to remove
  */
 protractorUtil.prototype.removeScreenshotBrowser = function (name) {
-    if (typeof name === 'string') {
-        delete protractorUtil.screenshotBrowsers[name];
-    } else {
-        console.warn('browser name must be a typeof string');
-    }
+    delete protractorUtil.screenshotBrowsers[name];
+};
+
+/**
+ * Remove all browser instances (cleanup)
+ */
+protractorUtil.prototype.removeAllScreenshotBrowsers = function () {
+    protractorUtil.screenshotBrowsers = {};
 };
 
 /**

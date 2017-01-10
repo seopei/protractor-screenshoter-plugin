@@ -2,6 +2,10 @@ var protractorUtils = require('../../../index');
 
 describe('angularjs homepage', function () {
 
+  afterAll(function () {
+    protractorUtils.removeAllScreenshotBrowsers();
+  });
+
   it('should generate console errors', function () {
     browser.get('http://www.angularjs.org');
     element(by.model('yourName')).sendKeys('Julie');
@@ -15,12 +19,10 @@ describe('angularjs homepage', function () {
   });
 
   it('should generate console errors in 2 browsers', function () {
-    var firstBrowser = browser;
-    protractorUtils.addScreenshotBrowser('first', firstBrowser);
+    var firstBrowser = protractorUtils.addScreenshotBrowser('first');
     firstBrowser.get('http://www.angularjs.org');
 
-    var secondBrowser = browser.forkNewDriverInstance();
-    protractorUtils.addScreenshotBrowser('second', secondBrowser);
+    var secondBrowser = protractorUtils.addScreenshotBrowser('second');
     secondBrowser.get('http://www.angularjs.org');
 
     firstBrowser.element(by.model('yourName')).sendKeys('Julie');
