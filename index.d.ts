@@ -9,15 +9,15 @@
  * @param skipImageToAscii disable generating ASCII images (optional, default: false)
  * @returns {*} browser instance
  */
-export function addScreenshotBrowser(name:string):any;
+export declare function addScreenshotBrowser(name:string):any;
 
 /**
  * Remove a browser instance
  * @param name browser name to remove
  */
-export function removeScreenshotBrowser(name:string):any;
+export declare function removeScreenshotBrowser(name:string):any;
 
 /**
  * Remove all browser instances (cleanup)
  */
-export function removeAllScreenshotBrowsers():void;
+export declare function removeAllScreenshotBrowsers():void;
